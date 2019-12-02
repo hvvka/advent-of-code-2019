@@ -6,7 +6,10 @@
     * [Part One](./src/main/java/day1/PartOne.java)
     * [Part Two](./src/main/java/day1/PartTwo.java)
 
-- [ ] Day 2
+- [x] Day 2: 1202 Program Alarm
+    * [Part One](./src/main/java/day2/PartOne.groovy)
+    * [Part Two](./src/main/java/day2/PartTwo.groovy)
+    
 - [ ] Day 3
 - [ ] Day 4
 - [ ] Day 5
