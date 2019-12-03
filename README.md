@@ -7,10 +7,13 @@
     * [Part Two](./src/main/java/day1/PartTwo.java)
 
 - [x] Day 2: 1202 Program Alarm
-    * [Part One](./src/main/java/day2/PartOne.groovy)
-    * [Part Two](./src/main/java/day2/PartTwo.groovy)
+    * [Part One](./src/main/groovy/day2/PartOne.groovy)
+    * [Part Two](./src/main/groovy/day2/PartTwo.groovy)
     
-- [ ] Day 3
+- [ ] Day 3: Crossed Wires
+    * [Part One](./src/main/javascript/day3/part-one.js)
+    * [Part Two](./src/main/javascript/day3/part-two.js)
+
 - [ ] Day 4
 - [ ] Day 5
 - [ ] Day 6
