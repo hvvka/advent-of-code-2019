@@ -14,9 +14,9 @@
     * [Part One](./src/main/javascript/day3/part-one.js)
     * [Part Two](./src/main/javascript/day3/part-two.js)
 
-- [ ] Day 4
-    * [Part One](./src/main/python/day4/part-one.py)
-    * [Part Two](./src/main/python/day4/part-two.py)
+- [x] Day 4: Secure Container
+    * [Part One](./src/main/python/day4/part_one.py)
+    * [Part Two](./src/main/python/day4/part_two.py)
     
 - [ ] Day 5
 - [ ] Day 6
