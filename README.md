@@ -10,11 +10,14 @@
     * [Part One](./src/main/groovy/day2/PartOne.groovy)
     * [Part Two](./src/main/groovy/day2/PartTwo.groovy)
     
-- [ ] Day 3: Crossed Wires
+- [x] Day 3: Crossed Wires
     * [Part One](./src/main/javascript/day3/part-one.js)
     * [Part Two](./src/main/javascript/day3/part-two.js)
 
 - [ ] Day 4
+    * [Part One](./src/main/python/day4/part-one.py)
+    * [Part Two](./src/main/python/day4/part-two.py)
+    
 - [ ] Day 5
 - [ ] Day 6
 - [ ] Day 7
