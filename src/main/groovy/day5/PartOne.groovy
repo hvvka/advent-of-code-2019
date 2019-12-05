@@ -1,7 +1,7 @@
 package day5
 
 /**
- * @author <ahref="mailto:226154@student.pwr.edu.pl" > Hanna Grodzicka</a>
+ * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
 class PartOne {
 
@@ -30,25 +30,27 @@ class PartOne {
             if (closure == null) continue
 
             if (operation[0] == 4) {
-                // TODO: refactor param & value
-                int param1 = array[pointer + 1]
-                int param2 = array[pointer + 2]
-                int value1 = codeArray[1] == 1 ? param1 : array[param1]
-                int value2 = codeArray[2] == 1 ? param2 : array[param2]
+                int value1 = getParameterValue(array, pointer + 1, codeArray[1])
+                int value2 = getParameterValue(array, pointer + 2, codeArray[2])
                 int result = closure(value1, value2)
                 int value3 = array[pointer + 3]
                 array[value3] = result
             } else {
-                int param1 = array[pointer + 1]
-                def output = closure(param1)
-                if (output) array[param1] = output
+                int value1 = array[pointer + 1]
+                def output = closure(value1)
+                if (output) array[value1] = output
             }
             pointer += operation[0]
         }
         return array[pointer + 1]
     }
 
-    private static def getCodeArray(int code) {
+    static int getParameterValue(List<Integer> array, int pointer, int mode) {
+        int param = array[pointer]
+        return mode == 1 ? param : array[param]
+    }
+
+    static def getCodeArray(int code) {
         return [getOpCode(code), getMode(code, 2), getMode(code, 1), getMode(code, 0)]
     }
 

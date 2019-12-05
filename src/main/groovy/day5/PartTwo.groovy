@@ -1,6 +1,10 @@
 package day5
+
+import static day5.PartOne.getCodeArray
+import static day5.PartOne.getParameterValue
+
 /**
- * @author <ahref="mailto:226154@student.pwr.edu.pl "             >             Hanna Grodzicka</a>
+ * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
 class PartTwo {
 
@@ -47,8 +51,8 @@ class PartTwo {
                 if (result == 0) pointer += operation[0]
                 else pointer = result
             } else if (codeArray[0] == 3) {
-                int param1 = array[pointer + 1]
-                array[param1] = closure()
+                int value1 = array[pointer + 1]
+                array[value1] = closure()
                 pointer += operation[0]
             } else if (codeArray[0] == 4) {
                 output = getParameterValue(array, pointer + 1, codeArray[1])
@@ -56,23 +60,5 @@ class PartTwo {
             }
         }
         return output
-    }
-
-    private static int getParameterValue(List<Integer> array, int pointer, int mode) {
-        int param = array[pointer]
-        int value = mode == 1 ? param : array[param]
-        value
-    }
-
-    private static def getCodeArray(int code) {
-        return [getOpCode(code), getMode(code, 2), getMode(code, 1), getMode(code, 0)]
-    }
-
-    private static int getOpCode(int value) {
-        return value % 100
-    }
-
-    private static int getMode(int value, int position) {
-        return value.toString().padLeft(5, '0')[position] as int
     }
 }
