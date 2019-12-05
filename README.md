@@ -9,7 +9,7 @@
 - [x] Day 2: 1202 Program Alarm
     * [Part One](./src/main/groovy/day2/PartOne.groovy)
     * [Part Two](./src/main/groovy/day2/PartTwo.groovy)
-    
+
 - [x] Day 3: Crossed Wires
     * [Part One](./src/main/javascript/day3/part-one.js)
     * [Part Two](./src/main/javascript/day3/part-two.js)
@@ -18,7 +18,10 @@
     * [Part One](./src/main/python/day4/part_one.py)
     * [Part Two](./src/main/python/day4/part_two.py)
     
-- [ ] Day 5
+- [x] Day 5: Sunny with a Chance of Asteroids
+    * [Part One](./src/main/groovy/day5/PartOne.groovy)
+    * [Part Two](./src/main/groovy/day5/PartTwo.groovy)
+    
 - [ ] Day 6
 - [ ] Day 7
 - [ ] Day 8
