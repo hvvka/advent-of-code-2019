@@ -22,7 +22,7 @@
     * [Part One](./src/main/groovy/day5/PartOne.groovy)
     * [Part Two](./src/main/groovy/day5/PartTwo.groovy)
     
-- [ ] Day 6: Universal Orbit Map
+- [x] Day 6: Universal Orbit Map
     * [Part One](./src/main/java/day6/PartOne.java)
     * [Part Two](./src/main/java/day6/PartTwo.java)
 
