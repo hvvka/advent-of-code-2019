@@ -20,7 +20,7 @@ public class PartOne {
         private final List<Integer> massOfEachModule;
 
         public FuelCounterUpper(String input) throws IOException {
-            this.massOfEachModule = Util.readInputFile(input);
+            this.massOfEachModule = Util.readFileAsIntegers(input);
         }
 
         static int getFuelForModule(int mass) {

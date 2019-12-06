@@ -15,10 +15,14 @@ public class Util {
         throw new IllegalStateException("Utility class");
     }
 
-    static List<Integer> readInputFile(String input) throws IOException {
+    public static List<String> readInputFile(String input) throws IOException {
         ClassLoader classLoader = Util.class.getClassLoader();
         String filePath = classLoader.getResource(input).getFile();
-        return Files.readAllLines(Paths.get(filePath)).stream()
+        return Files.readAllLines(Paths.get(filePath));
+    }
+
+    public static List<Integer> readFileAsIntegers(String input) throws IOException {
+        return readInputFile(input).stream()
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
     }
