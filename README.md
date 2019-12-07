@@ -26,7 +26,7 @@
     * [Part One](./src/main/java/day6/PartOne.java)
     * [Part Two](./src/main/java/day6/PartTwo.java)
 
-- [ ] Day 7: Amplification Circuit
+- [x] Day 7: Amplification Circuit
     * [Part One](./src/main/groovy/day7/PartOne.groovy)
     * [Part Two](./src/main/groovy/day7/PartTwo.groovy)
  

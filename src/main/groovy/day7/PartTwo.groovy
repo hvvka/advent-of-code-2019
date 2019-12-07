@@ -3,25 +3,33 @@ package day7
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-class PartOne {
+class PartTwo {
 
-    private static def phaseSetting = 0..4
+    private static def phaseSetting = 5..9
 
     static void main(String[] args) {
         def puzzleInput = [3, 8, 1001, 8, 10, 8, 105, 1, 0, 0, 21, 34, 47, 72, 93, 110, 191, 272, 353, 434, 99999, 3, 9, 102, 3, 9, 9, 1001, 9, 3, 9, 4, 9, 99, 3, 9, 102, 4, 9, 9, 1001, 9, 4, 9, 4, 9, 99, 3, 9, 101, 3, 9, 9, 1002, 9, 3, 9, 1001, 9, 2, 9, 1002, 9, 2, 9, 101, 4, 9, 9, 4, 9, 99, 3, 9, 1002, 9, 3, 9, 101, 5, 9, 9, 102, 4, 9, 9, 1001, 9, 4, 9, 4, 9, 99, 3, 9, 101, 3, 9, 9, 102, 4, 9, 9, 1001, 9, 3, 9, 4, 9, 99, 3, 9, 101, 2, 9, 9, 4, 9, 3, 9, 1001, 9, 2, 9, 4, 9, 3, 9, 101, 2, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 101, 1, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 99, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 3, 9, 1001, 9, 1, 9, 4, 9, 3, 9, 1001, 9, 2, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 101, 1, 9, 9, 4, 9, 3, 9, 1001, 9, 1, 9, 4, 9, 3, 9, 101, 2, 9, 9, 4, 9, 99, 3, 9, 1001, 9, 1, 9, 4, 9, 3, 9, 1001, 9, 2, 9, 4, 9, 3, 9, 101, 2, 9, 9, 4, 9, 3, 9, 101, 2, 9, 9, 4, 9, 3, 9, 1001, 9, 1, 9, 4, 9, 3, 9, 1001, 9, 1, 9, 4, 9, 3, 9, 1001, 9, 1, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 101, 2, 9, 9, 4, 9, 3, 9, 1001, 9, 2, 9, 4, 9, 99, 3, 9, 1002, 9, 2, 9, 4, 9, 3, 9, 1001, 9, 2, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 101, 2, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 3, 9, 1001, 9, 2, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 99, 3, 9, 101, 1, 9, 9, 4, 9, 3, 9, 101, 1, 9, 9, 4, 9, 3, 9, 101, 2, 9, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 1001, 9, 2, 9, 4, 9, 3, 9, 101, 1, 9, 9, 4, 9, 3, 9, 102, 2, 9, 9, 4, 9, 3, 9, 1001, 9, 1, 9, 4, 9, 3, 9, 101, 1, 9, 9, 4, 9, 3, 9, 1002, 9, 2, 9, 4, 9, 99]
-        def thrusterSignals = getThrusterSignalsMap(puzzleInput)
-        println(thrusterSignals.max{ it.value }.value) // 17440
+        LinkedHashMap<Object, Object> thrusterSignals = getThrusterSignalsMap(puzzleInput)
+        println(thrusterSignals.max{ it.value }.value) // 27561242
     }
 
     private static LinkedHashMap<List<Integer>, Integer> getThrusterSignalsMap(List<Integer> puzzleInput) {
         def thrusterSignals = [:]
-        phaseSetting.permutations().each { phaseSetting ->
-            int output = 0
-            phaseSetting.each { phase ->
-                def intCodeComputer = new IntCodeComputer(puzzleInput, [phase])
-                output = intCodeComputer.getOutput(output)
+        println(phaseSetting.permutations())
+        phaseSetting.permutations().each { setting ->
+            List<IntCodeComputer> amplifiers = []
+            setting.each { phase -> amplifiers += new IntCodeComputer(puzzleInput, [phase]); println(phase) }
+            def lastOutput = 0
+            int i = 0
+            while (!amplifiers.last().isTerminated) {
+                println(i)
+                def output = amplifiers[i].getOutput(lastOutput)
+                if (output != null) {
+                    lastOutput = output;
+                }
+                i %= 5
             }
-            thrusterSignals[phaseSetting] = output
+            thrusterSignals[setting] = lastOutput
         }
         return thrusterSignals
     }
