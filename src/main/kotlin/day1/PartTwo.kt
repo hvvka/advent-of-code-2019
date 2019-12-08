@@ -6,19 +6,19 @@ package day1
 
 fun main() {
     val image = getImageLayers()
-    val decodedImage = mutableListOf<Char>()
+    val decodedImage = arrayOfNulls<Char>(imageSize)
 
-    for (i in image[0].indices) {
-        for (layer in image) {
-            if (layer[i] == '0' || layer[i] == '1') {
-                decodedImage.add(layer[i])
-                break
+    for (layer in image) {
+        for ((index, pixel) in layer.withIndex()) {
+            when {
+                pixel != '2' && decodedImage[index] == null -> decodedImage[index] = pixel
             }
         }
     }
 
-    for (i in 0 until decodedImage.size) {
+    for (i in decodedImage.indices) {
         if (i % imageWidth == 0) println()
         print(decodedImage[i])
     }
+    // HZCZU
 }
