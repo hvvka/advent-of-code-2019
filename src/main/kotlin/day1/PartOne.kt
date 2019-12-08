@@ -14,8 +14,6 @@ fun main() {
     val image = getImageLayers()
 
     val fewestZeroLayer = image.minBy { layer -> layer.count { it == '0' } }.orEmpty()
-    println(fewestZeroLayer)
-
     val ones = fewestZeroLayer.count { it == '1' }
     val twos = fewestZeroLayer.count { it == '2' }
     val result = ones * twos
