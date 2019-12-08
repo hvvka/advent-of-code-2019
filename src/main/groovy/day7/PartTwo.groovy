@@ -15,14 +15,12 @@ class PartTwo {
 
     private static LinkedHashMap<List<Integer>, Integer> getThrusterSignalsMap(List<Integer> puzzleInput) {
         def thrusterSignals = [:]
-        println(phaseSetting.permutations())
         phaseSetting.permutations().each { setting ->
             List<IntCodeComputer> amplifiers = []
-            setting.each { phase -> amplifiers += new IntCodeComputer(puzzleInput, [phase]); println(phase) }
+            setting.each { phase -> amplifiers += new IntCodeComputer(puzzleInput, [phase]) }
             def lastOutput = 0
             int i = 0
             while (!amplifiers.last().isTerminated) {
-                println(i)
                 def output = amplifiers[i].getOutput(lastOutput)
                 if (output != null) {
                     lastOutput = output;

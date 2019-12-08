@@ -30,7 +30,11 @@
     * [Part One](./src/main/groovy/day7/PartOne.groovy)
     * [Part Two](./src/main/groovy/day7/PartTwo.groovy)
  
-- [ ] Day 8
+- [x] Day 8: Space Image Format
+    * [Part One](./src/main/kotlin/day8/PartOne.kt)
+    * [Part Two](./src/main/kotlin/day8/PartTwo.kt)
+
+
 - [ ] Day 9
 - [ ] Day 10
 - [ ] Day 11

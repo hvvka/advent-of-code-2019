@@ -42,9 +42,9 @@ class IntCodeComputer {
         this.inputs += input
         int pointer = 0
         def output = null
-        while (pointer < array.size()) {
+        while (!this.isTerminated) {
             def codeArray = getCodeArray(array[pointer])
-            if (codeArray[0] == 99) break
+            if (codeArray[0] == 99) { this.isTerminated = true; break }
             def operation = OPCODES.get(codeArray[0])
             def closure = operation[1]
             if (closure == null) continue
@@ -63,16 +63,14 @@ class IntCodeComputer {
                 if (result == 0) pointer += operation[0]
                 else pointer = result
             } else if (codeArray[0] == 3) {
-                println(inputs)
                 int value1 = array[pointer + 1]
                 array[value1] = inputs.remove(0)
                 pointer += operation[0]
             } else if (codeArray[0] == 4) {
                 output = getParameterValue(array, pointer + 1, codeArray[1])
-                pointer += operation[0]
+                break
             }
         }
-        this.isTerminated = true
         return output
     }
 }
