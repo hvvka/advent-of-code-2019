@@ -34,8 +34,10 @@
     * [Part One](./src/main/kotlin/day8/PartOne.kt)
     * [Part Two](./src/main/kotlin/day8/PartTwo.kt)
 
+- [x] Day 9: Sensor Boost
+    * [Part One](./src/main/kotlin/day9/PartOne.kt)
+    * [Part Two](./src/main/kotlin/day9/PartTwo.kt)
 
-- [ ] Day 9
 - [ ] Day 10
 - [ ] Day 11
 - [ ] Day 12
