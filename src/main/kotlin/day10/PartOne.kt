@@ -29,7 +29,7 @@ fun main() {
         Asteroid(x1, y1, angles.size)
     }.sortedByDescending { asteroid -> asteroid.neighbours }
 
-    println(output[0]) // Asteroid(x=26, y=29, neighbours=299)
+    println(output[0]) // x=26, y=29, neighbours=299
 }
 
 data class Asteroid(val x: Int, val y: Int, val neighbours: Int)
