@@ -38,7 +38,10 @@
     * [Part One](./src/main/kotlin/day9/PartOne.kt)
     * [Part Two](./src/main/kotlin/day9/PartTwo.kt)
 
-- [ ] Day 10
+- [x] Day 10: Monitoring Station
+    * [Part One](./src/main/kotlin/day10/PartOne.kt)
+    * [Part Two](./src/main/kotlin/day10/PartTwo.kt)
+
 - [ ] Day 11
 - [ ] Day 12
 - [ ] Day 13
