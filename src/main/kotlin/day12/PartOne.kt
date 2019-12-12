@@ -1,37 +1,77 @@
 package day12
 
+import Util
 import kotlin.math.abs
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
+internal val moons = listOf(
+    Moon(Gravity(-14, -4, -11)),
+    Moon(Gravity(-9, 6, -7)),
+    Moon(Gravity(4, 1, 4)),
+    Moon(Gravity(2, -14, -9))
+)
 
 fun main() {
-    // TODO: parsing input
-    val moons = listOf(
-        Moon(Gravity(-14, -4, -11)),
-        Moon(Gravity(-9, 6, -7)),
-        Moon(Gravity(4, 1, 4)),
-        Moon(Gravity(2, -14, -9))
-    )
-
     val motionSimulator = MotionSimulator(moons)
     motionSimulator.simulate(1000)
     val result = motionSimulator.calculateTotalEnergyInTheSystem()
     println(result) // 10028
 }
 
-internal class MotionSimulator(private val moons: List<Moon>) {
+internal class MotionSimulator(private var moons: List<Moon>) {
+
+    private val initialMoonsState = moons.map { Moon(it.gravity.copy()) }.toList()
 
     fun simulate(steps: Int) {
         for (i in 0 until steps) {
-            forEachPair { j: Int, k: Int ->
-                moons[j].applyVelocity(moons[k])
-                moons[k].applyVelocity(moons[j])
-            }
-            moons.forEach { it.updateGravity() }
+            doStep()
         }
     }
+
+    private fun doStep() {
+        forEachPair { j: Int, k: Int ->
+            moons[j].applyVelocity(moons[k])
+            moons[k].applyVelocity(moons[j])
+        }
+        moons.forEach { it.updateGravity() }
+    }
+
+    fun getStepsForCycle(): Long {
+        val initialGravityState = moons.map { it.gravity.copy() }.toTypedArray()
+
+        val initialXState = initialGravityState.map { it.x }.toIntArray()
+        val initialYState = initialGravityState.map { it.y }.toIntArray()
+        val initialZState = initialGravityState.map { it.z }.toIntArray()
+
+        val hasSameXState =
+            { -> !moons.map { it.gravity }.toTypedArray().map { it.x }.toIntArray().contentEquals(initialXState) }
+        val hasSameYState =
+            { -> !moons.map { it.gravity }.toTypedArray().map { it.y }.toIntArray().contentEquals(initialYState) }
+        val hasSameZState =
+            { -> !moons.map { it.gravity }.toTypedArray().map { it.z }.toIntArray().contentEquals(initialZState) }
+
+        val steps = mutableListOf(1L, 1L, 1L)
+        do {
+            doStep()
+            steps[0] += 1L
+        } while (hasSameXState())
+        this.moons = setMoonsToInitialState()
+        do {
+            doStep()
+            steps[1] += 1L
+        } while (hasSameYState())
+        this.moons = setMoonsToInitialState()
+        do {
+            doStep()
+            steps[2] += 1L
+        } while (hasSameZState())
+
+        return steps.reduce { a, b -> Util().lcm(a, b) }
+    }
+
+    private fun setMoonsToInitialState() = initialMoonsState.map { Moon(it.gravity.copy()) }.toList()
 
     private fun forEachPair(action: (Int, Int) -> Unit) {
         for (j in moons.indices) {
@@ -44,7 +84,7 @@ internal class MotionSimulator(private val moons: List<Moon>) {
     fun calculateTotalEnergyInTheSystem(): Int = moons.map { it.calculateTotalEnergy() }.sum()
 }
 
-internal class Moon(private val gravity: Gravity, private val velocity: Velocity = Velocity(0, 0, 0)) {
+data class Moon(val gravity: Gravity, private val velocity: Velocity = Velocity(0, 0, 0)) {
 
     fun applyVelocity(moon: Moon) {
         this.velocity.x -= this.gravity.x.compareTo(moon.gravity.x)

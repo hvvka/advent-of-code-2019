@@ -13,14 +13,10 @@ fun main() {
     val input = Util().readFile("day11/input.txt")
 
     val emergencyHullPaintingRobot = EmergencyHullPaintingRobot(input)
-    println(emergencyHullPaintingRobot.paintShip(false))
+    println(emergencyHullPaintingRobot.paintShip(false)) // 2339
 }
 
-internal class EmergencyHullPaintingRobot(val instructions: String) {
-
-    val ship: MutableList<Point> = mutableListOf()
-
-    val robot: Robot = Robot(0, 0)
+internal class EmergencyHullPaintingRobot(private val instructions: String) {
 
     var input = 0
 
@@ -54,14 +50,14 @@ internal class EmergencyHullPaintingRobot(val instructions: String) {
         val cornerX = whitePlaces.stream().mapToInt { (x) -> x }.min().asInt
         val cornerY = whitePlaces.stream().mapToInt { (_, y) -> y }.min().asInt
         whitePlaces.forEach(Consumer { e: Point -> e.x = e.x - cornerX; e.y = e.y - cornerY })
-        val sizex = whitePlaces.stream().mapToInt { e -> e.x }.max().asInt + 1
-        val sizey = whitePlaces.stream().mapToInt { e -> e.y }.max().asInt + 1
-        val places = Array(sizey) { IntArray(sizex) }
+        val sizeX = whitePlaces.stream().mapToInt { e -> e.x }.max().asInt + 1
+        val sizeY = whitePlaces.stream().mapToInt { e -> e.y }.max().asInt + 1
+        val places = Array(sizeY) { IntArray(sizeX) }
         for ((x, y) in whitePlaces) places[y][x] = 1
         return places
     }
 
-    fun turn(dir: Direction, right: Boolean): Direction {
+    private fun turn(dir: Direction, right: Boolean): Direction {
         var cur = dir.ordinal + if (right) 1 else -1
         if (cur == Direction.values().size) cur = 0 else if (cur == -1) cur = 3
         return Direction.values()[cur]
