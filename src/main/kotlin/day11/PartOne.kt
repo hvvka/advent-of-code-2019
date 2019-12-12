@@ -3,7 +3,6 @@ package day11
 import Util
 import day9.IntcodeComputer
 import java.util.*
-import java.util.function.Consumer
 
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
@@ -13,20 +12,23 @@ fun main() {
     val input = Util().readFile("day11/input.txt")
 
     val emergencyHullPaintingRobot = EmergencyHullPaintingRobot(input)
-    println(emergencyHullPaintingRobot.paintShip(false)) // 2339
+    emergencyHullPaintingRobot.paintShip(false)
+    val result = emergencyHullPaintingRobot.getPanelsPaintedOnce()
+    println(result) // 2339
 }
 
 internal class EmergencyHullPaintingRobot(private val instructions: String) {
 
-    var input = 0
+    val intcodeComputer = IntcodeComputer(this.instructions)
 
-    fun paintShip(startWhite: Boolean): Any? {
-        val intcodeComputer = IntcodeComputer(this.instructions)
+    private val paintedOnce: MutableSet<Point> = HashSet()
+
+    private val whitePanels: MutableSet<Point> = HashSet()
+
+    fun paintShip(startWhite: Boolean) {
         intcodeComputer.waitAfterOutputMode()
-        var currentLocation = Point(0, 0)
+        var currentLocation = Robot(0, 0)
         var robotDirection = Direction.UP
-        val paintedOnce: MutableSet<Point> = HashSet()
-        val whitePanels: MutableSet<Point> = HashSet()
         if (startWhite) whitePanels.add(currentLocation)
         while (!intcodeComputer.isTerminated) {
             intcodeComputer.addInput(if (whitePanels.contains(currentLocation)) 1 else 0)
@@ -43,18 +45,26 @@ internal class EmergencyHullPaintingRobot(private val instructions: String) {
             robotDirection = turn(robotDirection, newDirection == 1)
             currentLocation = move(currentLocation, robotDirection)
         }
-        return if (startWhite) constructImage(whitePanels) else paintedOnce.size
     }
 
-    private fun constructImage(whitePlaces: Set<Point>): Array<IntArray> {
-        val cornerX = whitePlaces.stream().mapToInt { (x) -> x }.min().asInt
-        val cornerY = whitePlaces.stream().mapToInt { (_, y) -> y }.min().asInt
-        whitePlaces.forEach(Consumer { e: Point -> e.x = e.x - cornerX; e.y = e.y - cornerY })
-        val sizeX = whitePlaces.stream().mapToInt { e -> e.x }.max().asInt + 1
-        val sizeY = whitePlaces.stream().mapToInt { e -> e.y }.max().asInt + 1
+    fun getPanelsPaintedOnce(): Int = paintedOnce.size
+
+    fun printRegistration() {
+        val cornerX = whitePanels.minBy { (x, _) -> x }!!.x
+        val cornerY = whitePanels.minBy { (_, y) -> y }!!.y
+
+        whitePanels.forEach { it.x -= cornerX; it.y -= cornerY }
+
+        val sizeX = whitePanels.maxBy { (x, _) -> x }!!.x + 1
+        val sizeY = whitePanels.maxBy { (_, y) -> y }!!.y + 1
         val places = Array(sizeY) { IntArray(sizeX) }
-        for ((x, y) in whitePlaces) places[y][x] = 1
-        return places
+
+        for ((x, y) in whitePanels) places[y][x] = 1
+
+        for (i in places.size - 1 downTo 0) {
+            places[i].forEach { panel -> if (panel == 1) print("█") else print(" ") }
+            println()
+        }
     }
 
     private fun turn(dir: Direction, right: Boolean): Direction {

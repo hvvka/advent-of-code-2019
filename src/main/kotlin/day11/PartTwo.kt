@@ -11,6 +11,7 @@ fun main() {
     val input = Util().readFile("day11/input.txt")
 
     val intcodeComputer = EmergencyHullPaintingRobot(input)
-    intcodeComputer.paintShip(true) // TODO
+    intcodeComputer.paintShip(true)
+    intcodeComputer.printRegistration() // PGUEPLPR
 }
 

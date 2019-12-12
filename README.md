@@ -42,11 +42,11 @@
     * [Part One](./src/main/kotlin/day10/PartOne.kt)
     * [Part Two](./src/main/kotlin/day10/PartTwo.kt)
 
-- [ ] Day 11: Space Police
+- [x] Day 11: Space Police
     * [Part One](./src/main/kotlin/day11/PartOne.kt)
     * [Part Two](./src/main/kotlin/day11/PartTwo.kt)
 
-- [ ] Day 12: The N-Body Problem
+- [x] Day 12: The N-Body Problem
     * [Part One](./src/main/kotlin/day12/PartOne.kt)
     * [Part Two](./src/main/kotlin/day12/PartTwo.kt)
 
