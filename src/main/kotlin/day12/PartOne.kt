@@ -18,22 +18,26 @@ fun main() {
     val motionSimulator = MotionSimulator(moons)
     motionSimulator.simulate(1000)
     val result = motionSimulator.calculateTotalEnergyInTheSystem()
-    println(result)
+    println(result) // 10028
 }
 
-internal class MotionSimulator(val moons: List<Moon>) {
+internal class MotionSimulator(private val moons: List<Moon>) {
 
     fun simulate(steps: Int) {
         for (i in 0 until steps) {
-            for (j in moons.indices) {
-                for (k in j until moons.size) {
-                    if (moons[j] != moons[k]) {
-                        moons[j].applyVelocity(moons[k])
-                        moons[k].applyVelocity(moons[j])
-                    }
-                }
+            forEachPair { j: Int, k: Int ->
+                moons[j].applyVelocity(moons[k])
+                moons[k].applyVelocity(moons[j])
             }
             moons.forEach { it.updateGravity() }
+        }
+    }
+
+    private fun forEachPair(action: (Int, Int) -> Unit) {
+        for (j in moons.indices) {
+            for (k in j + 1 until moons.size) {
+                action(j, k)
+            }
         }
     }
 
@@ -43,9 +47,9 @@ internal class MotionSimulator(val moons: List<Moon>) {
 internal class Moon(private val gravity: Gravity, private val velocity: Velocity = Velocity(0, 0, 0)) {
 
     fun applyVelocity(moon: Moon) {
-        this.velocity.x += if (this.gravity.x > moon.gravity.x) -1 else if (this.gravity.x == moon.gravity.x) 0 else 1
-        this.velocity.y += if (this.gravity.y > moon.gravity.y) -1 else if (this.gravity.y == moon.gravity.y) 0 else 1
-        this.velocity.z += if (this.gravity.z > moon.gravity.z) -1 else if (this.gravity.z == moon.gravity.z) 0 else 1
+        this.velocity.x -= this.gravity.x.compareTo(moon.gravity.x)
+        this.velocity.y -= this.gravity.y.compareTo(moon.gravity.y)
+        this.velocity.z -= this.gravity.z.compareTo(moon.gravity.z)
     }
 
     fun updateGravity() {
