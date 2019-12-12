@@ -2,10 +2,11 @@ package day9
 
 import java.util.*
 
+
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-internal class IntcodeComputer(instructions: String, vararg input: Int) {
+open class IntcodeComputer(instructions: String, vararg input: Int) {
 
     private var memory: Memory
     private var instructionPointer = 0
@@ -24,6 +25,10 @@ internal class IntcodeComputer(instructions: String, vararg input: Int) {
 
     fun getRegisterValue(index: Int): Long {
         return memory[index]
+    }
+
+    fun addInput(vararg input: Int) {
+        this.inputDigits += input.map { it.toLong() }
     }
 
     fun getOutput(): List<Long> {

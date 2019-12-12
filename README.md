@@ -42,7 +42,10 @@
     * [Part One](./src/main/kotlin/day10/PartOne.kt)
     * [Part Two](./src/main/kotlin/day10/PartTwo.kt)
 
-- [ ] Day 11
+- [ ] Day 11: Space Police
+    * [Part One](./src/main/kotlin/day11/PartOne.kt)
+    * [Part Two](./src/main/kotlin/day11/PartTwo.kt)
+
 - [ ] Day 12
 - [ ] Day 13
 - [ ] Day 14
