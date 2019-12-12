@@ -5,7 +5,6 @@ package day12
  */
 
 fun main() {
-
     val motionSimulator = MotionSimulator(moons)
     val result = motionSimulator.getStepsForCycle()
     println(result) // 314610635824376

@@ -41,34 +41,30 @@ internal class MotionSimulator(private var moons: List<Moon>) {
     fun getStepsForCycle(): Long {
         val initialGravityState = moons.map { it.gravity.copy() }.toTypedArray()
 
-        val initialXState = initialGravityState.map { it.x }.toIntArray()
-        val initialYState = initialGravityState.map { it.y }.toIntArray()
-        val initialZState = initialGravityState.map { it.z }.toIntArray()
+        val hasSameXState = hasSameState({ it.x }, initialGravityState)
+        val hasSameYState = hasSameState({ it.y }, initialGravityState)
+        val hasSameZState = hasSameState({ it.z }, initialGravityState)
 
-        val hasSameXState =
-            { -> !moons.map { it.gravity }.toTypedArray().map { it.x }.toIntArray().contentEquals(initialXState) }
-        val hasSameYState =
-            { -> !moons.map { it.gravity }.toTypedArray().map { it.y }.toIntArray().contentEquals(initialYState) }
-        val hasSameZState =
-            { -> !moons.map { it.gravity }.toTypedArray().map { it.z }.toIntArray().contentEquals(initialZState) }
+        val xSteps = findStepsToInitialState(hasSameXState)
+        val ySteps = findStepsToInitialState(hasSameYState)
+        val zSteps = findStepsToInitialState(hasSameZState)
 
-        val steps = mutableListOf(1L, 1L, 1L)
+        return listOf(xSteps, ySteps, zSteps).reduce { a, b -> Util().lcm(a, b) }
+    }
+
+    private fun findStepsToInitialState(hasSameState: () -> Boolean): Long {
+        var steps = 1L
         do {
             doStep()
-            steps[0] += 1L
-        } while (hasSameXState())
+            steps += 1L
+        } while (hasSameState())
         this.moons = setMoonsToInitialState()
-        do {
-            doStep()
-            steps[1] += 1L
-        } while (hasSameYState())
-        this.moons = setMoonsToInitialState()
-        do {
-            doStep()
-            steps[2] += 1L
-        } while (hasSameZState())
+        return steps
+    }
 
-        return steps.reduce { a, b -> Util().lcm(a, b) }
+    private fun hasSameState(plane: (Gravity) -> Int, initialGravityState: Array<Gravity>): () -> Boolean {
+        val initialState = initialGravityState.map { plane(it) }.toIntArray()
+        return { -> !moons.map { it.gravity }.toTypedArray().map { plane(it) }.toIntArray().contentEquals(initialState) }
     }
 
     private fun setMoonsToInitialState() = initialMoonsState.map { Moon(it.gravity.copy()) }.toList()
