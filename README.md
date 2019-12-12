@@ -46,7 +46,10 @@
     * [Part One](./src/main/kotlin/day11/PartOne.kt)
     * [Part Two](./src/main/kotlin/day11/PartTwo.kt)
 
-- [ ] Day 12
+- [ ] Day 12: The N-Body Problem
+    * [Part One](./src/main/kotlin/day12/PartOne.kt)
+    * [Part Two](./src/main/kotlin/day12/PartTwo.kt)
+
 - [ ] Day 13
 - [ ] Day 14
 - [ ] Day 15
