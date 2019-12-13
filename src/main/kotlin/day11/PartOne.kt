@@ -4,19 +4,6 @@ import Util
 import day9.IntcodeComputer
 import java.util.*
 
-/**
- * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
- */
-
-fun main() {
-    val input = Util().readFile("day11/input.txt")
-
-    val emergencyHullPaintingRobot = EmergencyHullPaintingRobot(input)
-    emergencyHullPaintingRobot.paintShip(false)
-    val result = emergencyHullPaintingRobot.getPanelsPaintedOnce()
-    println(result) // 2339
-}
-
 internal class EmergencyHullPaintingRobot(private val instructions: String) {
 
     val intcodeComputer = IntcodeComputer(this.instructions)
@@ -79,6 +66,19 @@ internal class EmergencyHullPaintingRobot(private val instructions: String) {
         Direction.RIGHT -> Point(robot.x + 1, robot.y)
         Direction.LEFT -> Point(robot.x - 1, robot.y)
     }
+}
+
+/**
+ * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
+ */
+
+fun main() {
+    val input = Util().readFile("day11/input.txt")
+
+    val emergencyHullPaintingRobot = EmergencyHullPaintingRobot(input)
+    emergencyHullPaintingRobot.paintShip(false)
+    val result = emergencyHullPaintingRobot.getPanelsPaintedOnce()
+    println(result) // 2339
 }
 
 data class Robot(var x: Int, var y: Int)

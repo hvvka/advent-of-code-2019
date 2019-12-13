@@ -5,7 +5,7 @@ class Util {
 
     fun readFile(filename: String): String = this::class.java.getResource(filename).readText()
 
-    fun gcd(a: Long, b: Long): Long {
+    private fun gcd(a: Long, b: Long): Long {
         if (b == 0L) return a
         return gcd(b, a % b)
     }
