@@ -2,11 +2,10 @@ package day9
 
 import java.util.*
 
-
 /**
  * @author <a href="mailto:226154@student.pwr.edu.pl">Hanna Grodzicka</a>
  */
-open class IntcodeComputer(instructions: String, vararg input: Int) {
+open class IntcodeComputer(program: String, vararg input: Int) {
 
     private var memory: Memory
     private var instructionPointer = 0
@@ -19,21 +18,19 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
         private set
 
     init {
-        val parsedInstructions = instructions.split(",").map { it.toLong() }
-        memory = Memory(parsedInstructions)
+        val instructions = program.split(",").map { it.toLong() }
+        memory = Memory(instructions)
     }
 
-    fun getRegisterValue(index: Int): Long {
-        return memory[index]
-    }
+    fun getMemoryValue(index: Int): Long = memory[index]
+
+    fun setMemoryValue(index: Int, value: Long) = memory.set(index, value)
 
     fun addInput(vararg input: Int) {
         this.inputDigits += input.map { it.toLong() }
     }
 
-    fun getOutput(): List<Long> {
-        return output
-    }
+    fun getOutput(): List<Long> = output
 
     val lastOutput: Long
         get() = output[output.size - 1]
@@ -41,6 +38,11 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
     fun waitAfterOutputMode() {
         computerMode = Mode.WAIT_AFTER_OUTPUT
     }
+
+    fun waitForInputMode() {
+        computerMode = Mode.WAIT_FOR_INPUT
+    }
+
 
     fun execute() {
         while (!isTerminated) {
@@ -56,7 +58,12 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
             when (instruction) {
                 1 -> add(firstMode, secondMode, thirdMode)
                 2 -> multiply(firstMode, secondMode, thirdMode)
-                3 -> handleInput(firstMode)
+                3 -> {
+                    if (computerMode == Mode.WAIT_FOR_INPUT && this.inputIndex >= this.inputDigits.size) {
+                        return
+                    }
+                    handleInput(firstMode)
+                }
                 4 -> {
                     handleOutput(firstMode)
                     if (computerMode == Mode.WAIT_AFTER_OUTPUT) {
@@ -77,7 +84,7 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
         val firstValue = getInputValue(1, firstMode)
         val secondValue = getInputValue(2, secondMode)
         val writeIndex = getOutputValue(3, thirdMode)
-        memory.put(writeIndex, firstValue + secondValue)
+        memory.set(writeIndex, firstValue + secondValue)
         instructionPointer += 4
     }
 
@@ -85,14 +92,14 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
         val firstValue = getInputValue(1, firstMode)
         val secondValue = getInputValue(2, secondMode)
         val writeIndex = getOutputValue(3, thirdMode)
-        memory.put(writeIndex, firstValue * secondValue)
+        memory.set(writeIndex, firstValue * secondValue)
         instructionPointer += 4
     }
 
     private fun handleInput(firstMode: Long) {
         val outputAddress = getOutputValue(1, firstMode)
         val inputValue = inputDigits[inputIndex++]
-        memory.put(outputAddress, inputValue)
+        memory.set(outputAddress, inputValue)
         instructionPointer += 2
     }
 
@@ -125,8 +132,8 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
         val secondValue = getInputValue(2, secondMode)
         val writeIndex = getOutputValue(3, thirdMode)
         when {
-            firstValue < secondValue -> memory.put(writeIndex, 1L)
-            else -> memory.put(writeIndex, 0L)
+            firstValue < secondValue -> memory.set(writeIndex, 1L)
+            else -> memory.set(writeIndex, 0L)
         }
         instructionPointer += 4
     }
@@ -136,8 +143,8 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
         val secondValue = getInputValue(2, secondMode)
         val writeIndex = getOutputValue(3, thirdMode)
         when (firstValue) {
-            secondValue -> memory.put(writeIndex, 1L)
-            else -> memory.put(writeIndex, 0L)
+            secondValue -> memory.set(writeIndex, 1L)
+            else -> memory.set(writeIndex, 0L)
         }
         instructionPointer += 4
     }
@@ -157,8 +164,8 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
         }
     }
 
-    private fun getOutputValue(offset: Int, mode: Long): Long {
-        val argument = memory[instructionPointer + offset]
+    private fun getOutputValue(offset: Int, mode: Long): Int {
+        val argument = memory[instructionPointer + offset].toInt()
         return when (mode) {
             0L -> argument
             1L -> argument
@@ -167,15 +174,16 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
     }
 
     private enum class Mode {
-        NORMAL, WAIT_AFTER_OUTPUT
+        NORMAL, WAIT_AFTER_OUTPUT, WAIT_FOR_INPUT
     }
 
     private class Memory internal constructor(instructions: List<Long>) {
 
         private val program: MutableMap<Int, Long>
 
-        fun put(index: Long, value: Long) {
-            program[index.toInt()] = value
+        fun set(index: Int, value: Long) {
+            require(index >= 0) { "Negative index" }
+            program[index] = value
         }
 
         operator fun get(index: Int): Long {
@@ -186,6 +194,10 @@ open class IntcodeComputer(instructions: String, vararg input: Int) {
         operator fun get(index: Long): Long {
             require(index >= 0) { "Negative index" }
             return program.getOrDefault(index.toInt(), 0L)
+        }
+
+        override fun toString(): String {
+            return "Memory(program=$program)"
         }
 
         init {

@@ -50,11 +50,14 @@
     * [Part One](./src/main/kotlin/day12/PartOne.kt)
     * [Part Two](./src/main/kotlin/day12/PartTwo.kt)
 
-- [ ] Day 13: Care Package
+- [x] Day 13: Care Package
     * [Part One](./src/main/kotlin/day13/PartOne.kt)
     * [Part Two](./src/main/kotlin/day13/PartTwo.kt)
 
-- [ ] Day 14
+- [ ] Day 14: Space Stoichiometry
+    * [Part One](./src/main/kotlin/day14/PartOne.kt)
+    * [Part Two](./src/main/kotlin/day14/PartTwo.kt)
+
 - [ ] Day 15
 - [ ] Day 16
 - [ ] Day 17
